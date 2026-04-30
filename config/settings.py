@@ -73,14 +73,24 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+import os
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get("DB_NAME", "neondb"),
+        'USER': os.environ.get("DB_USER", "neondb_owner"),
+        'PASSWORD': os.environ.get("DB_PASSWORD", "npg_j73GxmtILYhu"),
+        'HOST': os.environ.get(
+            "DB_HOST",
+            "ep-wandering-cake-anocoe8t-pooler.c-6.us-east-1.aws.neon.tech"
+        ),
+        'PORT': os.environ.get("DB_PORT", "5432"),
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
@@ -115,5 +125,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
