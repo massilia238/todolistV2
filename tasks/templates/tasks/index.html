@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToDo App</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #eef2f7;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+        }
+
+        .container {
+            width: 420px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .add {
+            background: #4CAF50;
+            color: white;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-top: 8px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .done {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .actions a {
+            margin-left: 8px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .delete {
+            color: red;
+        }
+
+        .toggle {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>My ToDo List</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="New task...">
+        <button class="add">Add</button>
+    </form>
+
+    <ul>
+        {% for task in tasks %}
+        <li>
+            <span class="{% if task.completed %}done{% endif %}">
+                {{ task.title }}
+            </span>
+
+            <div class="actions">
+                <a class="toggle" href="/toggle/{{ task.id }}">✔</a>
+                <a class="delete" href="/delete/{{ task.id }}">✖</a>
+            </div>
+        </li>
+        {% empty %}
+        <li>No tasks yet</li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>
